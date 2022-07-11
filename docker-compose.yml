@@ -1,0 +1,60 @@
+version: '3.7'
+
+networks:
+  laravel:
+
+
+services:
+  site:
+    build:
+      context: ./docker
+      dockerfile: nginx.dockerfile
+      args:
+        - UID=${UID:-1000}
+        - GID=${GID:-1000}
+    container_name: nginx_test
+    ports:
+      - 8000:80
+    volumes:
+      - ./src:/var/www/html:delegated
+    depends_on:
+      - php
+      - mysql
+    networks:
+      - laravel
+
+  mysql:
+    image: mariadb:10.6
+    container_name: mysql_test
+    restart: unless-stopped
+    tty: true
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_DATABASE: testdocker
+      MYSQL_USER: test
+      MYSQL_PASSWORD: test
+      MYSQL_ROOT_PASSWORD: test
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    volumes:
+      - dbdata:/var/lib/mysql
+    networks:
+      - laravel
+
+  php:
+    build:
+      context: ./docker
+      dockerfile: php.dockerfile
+      args:
+        - UID=${UID:-1000}
+        - GID=${GID:-1000}
+    container_name: php_test
+    volumes:
+      - ./src:/var/www/html:delegated
+    networks:
+      - laravel
+#Volumes
+volumes:
+  dbdata:
+    driver: local
