@@ -2,9 +2,6 @@
 
 namespace App\Helpers;
 
-use Illuminate\Support\Str;
-use Symfony\Component\HttpFoundation\Response;
-
 class Helper
 {
     const SUCCESS_OK = 0;
@@ -17,9 +14,7 @@ class Helper
             'data' => $data,
             'errors' => []
         ];
-        return response()->json([
-            $output, $code
-        ]);
+        return response()->json($output, $code);
     }
 
     public static function responseErrorAPI($code, $errorCode, $message, $data = [])
@@ -32,8 +27,6 @@ class Helper
                 'error_message' => $message
             ]
         ];
-        return response()->json([
-            $output, $code
-        ]);
+        return response()->json($output, $code);
     }
 }

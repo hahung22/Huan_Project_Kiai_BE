@@ -31,10 +31,10 @@ services:
     ports:
       - 3306:3306
     environment:
-      MYSQL_DATABASE: testdocker
-      MYSQL_USER: test
-      MYSQL_PASSWORD: test
-      MYSQL_ROOT_PASSWORD: test
+      MYSQL_DATABASE: book_store
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: root
       SERVICE_TAGS: dev
       SERVICE_NAME: mysql
     volumes:
